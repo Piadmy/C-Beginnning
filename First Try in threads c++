@@ -1,0 +1,54 @@
+#include<windows.h>
+#include<iostream>
+#include <chrono>
+using namespace std;
+ int mass[10];
+DWORD WINAPI thread(LPVOID) {                     //CODE MADE BY PIADMY//
+    int sum = 0;
+    for (int r = 0; r < 10; r++) {
+
+        sum += mass[r];
+        Sleep(20);               //Функция потока находящая среднее арифметическое//
+    }
+    int e = sum / 10;
+    cout <<"Thread output:\n"<<"Average: " << e << endl;
+    return 0;
+}
+
+int main()
+{
+    HANDLE hThread;
+    DWORD IDThread;
+    cout << "Enter array elements: " << endl;
+    for (int r = 0; r < 10; r++) {
+        cin >> mass[r];                                      //Ввод элементов массива//
+    }
+    hThread = CreateThread(NULL, 0, thread, NULL, 0, &IDThread);
+    if (hThread == NULL)
+        return GetLastError();
+    int max = mass[0];
+    int min = mass[0];
+    for (int r = 0; r < 10; r++)
+    {
+        if (max < mass[r]) max = mass[r];                             //Минимальное значение//
+        if (min > mass[r]) min = mass[r];                             //Максимально значение//
+        Sleep(30);
+    }
+    cout << "Min: " << min << endl;
+    cout << "Max: " << max << endl;
+    WaitForSingleObject(hThread, INFINITE);
+    int sum = 0, k;
+    for (int r = 0; r < 10; r++)
+    {
+        sum += mass[r];                    //Выведение количества чисел которые больше среднего//
+    }
+    k = 0;
+    for (int r = 0; r < 10; r++)
+    {
+        if (mass[r] > sum / 10)
+            k++;
+    };
+    cout<<"More than average: " << k;
+    CloseHandle(hThread);
+    return 0;
+}

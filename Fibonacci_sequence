@@ -1,0 +1,21 @@
+#include <iostream>
+using namespace std;
+int main() {
+    int  fd,fy,ft,a,N;
+    cin>>N;
+    a=2;
+    fd=0;
+    ft=1;
+    fy=ft;
+        if(N==0){ft=0;}
+        else if(N==1){ft=1;}
+        else if (N==2){ft=1;}
+        else {
+        while(a!=N){fd=fy;
+                    fy=ft;
+                    ft=fy+fd;
+                         a++;}}
+    cout<<ft;
+  // put your code here
+  return 0;
+}
